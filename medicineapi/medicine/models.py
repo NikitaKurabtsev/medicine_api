@@ -1,4 +1,3 @@
-from re import T
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.text import slugify
@@ -12,6 +11,7 @@ class Company(models.Model):
 
     class Meta:
         ordering = ['-created']
+        verbose_name_plural = 'Companies'
 
     def __str__(self):
         return self.name
