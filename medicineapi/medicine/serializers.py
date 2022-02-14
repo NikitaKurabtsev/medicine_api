@@ -1,6 +1,9 @@
 from dataclasses import field
+
 from rest_framework import serializers
+
 from medicine.models import Company, Medicine
+
 
 class CompanySerializer(serializers.HyperlinkedModelSerializer):
     medicines = serializers.HyperlinkedRelatedField(

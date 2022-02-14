@@ -6,6 +6,7 @@ from medicine.models import Company, Medicine
 
 
 class ModelTest(TestCase):
+    
     def setUp(self):
         self.user = User.objects.create_user(
             username='user',
@@ -29,6 +30,7 @@ class ModelTest(TestCase):
         self.assertEqual(self.company.name, 'test_company')
         self.assertEqual(self.company.owner.username, 'user')
         self.assertEqual(self.company.slug, 'test_company')
+
         self.assertEqual(Company.objects.count(), 1)
 
     def test_medicine_model(self):
@@ -40,4 +42,5 @@ class ModelTest(TestCase):
         self.assertEqual(self.medicine.slug, 'test_medicine')
         self.assertEqual(self.medicine.release_date, timezone.datetime(2020, 3, 10))
         self.assertEqual(self.medicine.expiration_date, timezone.datetime(2023, 5, 17))
+
         self.assertEqual(Medicine.objects.count(), 1)
