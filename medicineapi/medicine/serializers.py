@@ -1,4 +1,5 @@
 from dataclasses import field
+from unicodedata import name
 
 from rest_framework import serializers
 
@@ -9,7 +10,7 @@ class CompanySerializer(serializers.HyperlinkedModelSerializer):
     medicines = serializers.HyperlinkedRelatedField(
         many=True,
         read_only=True,
-        name='medicine-detail', #configure with router
+        view_name='medicine-detail', #configure with router
     )
 
     class Meta:
@@ -22,10 +23,12 @@ class CompanySerializer(serializers.HyperlinkedModelSerializer):
             'medicines'
         )
 
-class MedicineSerializer(serializers.HyperlinkedModelSerializer):
+
+class MedicineSerializer(serializers.ModelSerializer):
     company = serializers.SlugRelatedField(
         queryset=Company.objects.all(), 
-        slug_field='slug'
+        slug_field='slug',
+        # name='company-list'
     )
 
     class Meta:

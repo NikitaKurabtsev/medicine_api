@@ -45,7 +45,7 @@ class Medicine(models.Model):
     )
     company = models.ForeignKey(
         Company, 
-        related_name='medicine', 
+        related_name='medicines', 
         on_delete=models.CASCADE,
         help_text='Компания'
     )
