@@ -1,26 +1,15 @@
+from argparse import Namespace
 from unicodedata import name
+
+from django.db import router
 from django.urls import path
+from rest_framework import routers
+
 from medicine import views
 
-urlpatterns = [
-    path(
-        'companies/', 
-        views.CompanyListCreate.as_view(), 
-        name=views.CompanyListCreate.name
-    ),
-    path(
-        'companies/<int:pk>/', 
-        views.CompanyDetail.as_view(), 
-        name=views.CompanyDetail.name
-    ),
-    path(
-        'medicines/', 
-        views.MedicineListCreate.as_view(), 
-        name=views.MedicineListCreate.name
-    ),
-    path(
-        'medicines/<int:pk>/', 
-        views.MedicineDetail.as_view(), 
-        name=views.MedicineDetail.name
-    ),
-]
+router = routers.DefaultRouter()
+
+router.register(r'companies', views.CompanyViewSet)
+router.register(r'medicines', views.MedicineViewSet)
+
+urlpatterns = router.urls
