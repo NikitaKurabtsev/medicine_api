@@ -1,10 +1,12 @@
 from urllib import response
+
 from django.contrib.auth.models import User
 from django.urls import reverse
-from rest_framework.test import APITestCase, APIClient
 from django.utils import timezone
+from rest_framework.test import APIClient, APITestCase
 
 from medicine.models import Company, Medicine
+
 
 class APIViewTest(APITestCase):
     
@@ -35,6 +37,4 @@ class APIViewTest(APITestCase):
     def test_company_detail(self):
         url = reverse('company-detail', args=['1'])
         response = self.client.get(url)
-        print(response.data)
-        print(url)
         self.assertEqual(response.status_code, 200)

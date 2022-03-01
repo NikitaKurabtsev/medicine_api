@@ -1,8 +1,4 @@
-from argparse import Namespace
-from unicodedata import name
-
 from django.db import router
-from django.urls import path
 from rest_framework import routers
 
 from medicine import views

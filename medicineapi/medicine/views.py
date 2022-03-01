@@ -1,4 +1,3 @@
-from urllib import request
 from django.forms import ValidationError
 from rest_framework import permissions, viewsets
 

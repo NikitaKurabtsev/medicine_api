@@ -1,52 +1,63 @@
-# from multiprocessing import context
-# from urllib import request
-# from django.contrib.auth.models import User
-# from django.test import TestCase
-# from django.utils import timezone
-# from medicine.serializers import CompanySerializer, MedicineSerializer
-# from rest_framework.request import Request
+from django.contrib.auth.models import User
+from django.test.client import RequestFactory
+from django.urls import reverse
+from rest_framework import status
+from rest_framework.test import APITestCase
 
-# from medicine.models import Company, Medicine
+from medicine.models import Company, Medicine
+from medicine.serializers import CompanySerializer, MedicineSerializer
 
 
-# class APISerializerTest(TestCase):
-    
-#     def setUp(self):
-#         self.user1 = User.objects.create_user(
-#             username='user1',
-#             password='password',
-#         )
-#         self.user2 = User.objects.create_user(
-#             username='user2',
-#             password='password',
-#         )
-#         self.company1 = Company.objects.create(
-#             name='test_company1',
-#             owner=self.user1,
-#         )
-#         self.company2 = Company.objects.create(
-#             name='test_company2',
-#             owner=self.user2,
-#         )
-#         self.medicine = Medicine.objects.create(
-#             name='test_medicine',
-#             medicine_category='Pills',
-#             company=self.company1,
-#             description='test_description',
-#             release_date=timezone.datetime(2020, 3, 10),
-#             expiration_date=timezone.datetime(2023, 5, 17),
-#         )
+class APISerializerTest(APITestCase):
+    """
+    Tests for Company and Medicine serializers.
+    """
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username='user1',
+            password='password',
+        )
+        
+        self.company = Company.objects.create(
+            name='test_company',
+            owner=self.user,
+        )
+        
+        self.medicine = Medicine.objects.create(
+            name='test_medicine',
+            medicine_category='Pills',
+            company=self.company,
+            description='test_description',
+            release_date='2020-03-10',
+            expiration_date='2023-05-17',
+        )
+        self.medicine_unvalid = Medicine.objects.create(
+            name='medicine_unvalid',
+            medicine_category='Injection',
+            company=self.company,
+            description='test_description',
+            release_date='2023-03-10',
+            expiration_date='2020-05-17',
+        )
+        
+    def test_company_serializer(self):
+        serializer = CompanySerializer(
+            instance=self.company, 
+            context={'request': RequestFactory().post('company-create')}
+        )
+        url = reverse('company-detail', args=['1'])
+        response = self.client.get(url)
+        
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        self.assertEqual(serializer.data, response.data)
 
-#     def test_company_serializer(self):
-#         serializer_data = CompanySerializer(self.company1, self.company2, many=True)
-#         expected_data = [
-#             {
-#                 'name': 'test_company1',
-#                 'owner': 'user1',
-#             },
-#             {
-#                 'name': 'test_company2',
-#                 'owner': 'user2',
-#             },
-#         ]
-#         self.assertEqual(serializer_data, expected_data)
+    def test_medicine_serializer(self):
+        serializer = MedicineSerializer(
+            instance=self.medicine,
+            context={'request': RequestFactory().post('medicine-create')}
+        )
+        url = reverse('medicine-detail', args=['1'])
+        response = self.client.get(url)
+
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        self.assertEqual(serializer.data, response.data)

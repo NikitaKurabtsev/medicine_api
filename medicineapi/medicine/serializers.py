@@ -28,6 +28,8 @@ class MedicineSerializer(serializers.ModelSerializer):
         queryset=Company.objects.all(), 
         slug_field='slug',
     )
+    release_date = serializers.DateField(format='%Y-%m-%d', input_formats=['%Y-%m-%d', 'iso-8601'])
+    expiration_date = serializers.DateField(format='%Y-%m-%d', input_formats=['%Y-%m-%d', 'iso-8601'])
 
     class Meta:
         model = Medicine
@@ -41,18 +43,6 @@ class MedicineSerializer(serializers.ModelSerializer):
             'release_date',
             'expiration_date',
         )
-
-    # def validate_name(self, value):
-    #     '''
-    #     Check that medicin name is unique.
-    #     '''
-    #     medicines = Medicine.objects.filter(name=value)
-    #     if medicines.exists():
-    #         raise serializers.ValidationError(
-    #             'This medicine already exist'
-    #         )
-
-    #     return value
 
     def validate_company(self, value):
         '''
@@ -74,11 +64,11 @@ class MedicineSerializer(serializers.ModelSerializer):
 
         if medicines.exists():
             raise serializers.ValidationError(
-                {'description': 'Description already exists'}
+                'Description already exists'
             )
-        elif len(value) < 50:
+        if len(value) < 50:
             raise serializers.ValidationError(
-                {'description': 'Description must be bigger then 50 characters'}
+                'Description must be bigger than 50 characters'
             )
 
         return value
@@ -91,7 +81,7 @@ class MedicineSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 {'release_date': 'Release date must be less then expiration date'}
             )
-        elif data['expiration_date'] <= data['release_date']:
+        if data['expiration_date'] <= data['release_date']:
             raise serializers.ValidationError(
                 {'expiration_date': 'Expiration date must be bigger then release date'}
             )

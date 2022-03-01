@@ -1,6 +1,5 @@
 from rest_framework import permissions
 
-
 ACTION_SAFE_METHODS = [
     'list',
     'retrieve'
