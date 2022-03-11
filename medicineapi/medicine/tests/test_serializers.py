@@ -31,8 +31,8 @@ class APISerializerTest(APITestCase):
             release_date='2020-03-10',
             expiration_date='2023-05-17',
         )
-        self.medicine_unvalid = Medicine.objects.create(
-            name='medicine_unvalid',
+        self.invalid_medicine = Medicine.objects.create(
+            name='invalid_medicine',
             medicine_category='Injection',
             company=self.company,
             description='test_description',
@@ -56,8 +56,13 @@ class APISerializerTest(APITestCase):
             instance=self.medicine,
             context={'request': RequestFactory().post('medicine-create')}
         )
+        invalid_serializer = MedicineSerializer(
+            data=self.invalid_medicine,
+            context={'request': RequestFactory().post('medicine-create')}
+        )
         url = reverse('medicine-detail', args=['1'])
         response = self.client.get(url)
 
+        self.assertEqual(invalid_serializer.is_valid(), False)
         self.assertEqual(status.HTTP_200_OK, response.status_code)
         self.assertEqual(serializer.data, response.data)

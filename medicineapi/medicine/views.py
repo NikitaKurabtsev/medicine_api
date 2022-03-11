@@ -1,4 +1,3 @@
-from django.forms import ValidationError
 from rest_framework import permissions, viewsets
 
 from medicine.models import Company, Medicine
