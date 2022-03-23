@@ -20,6 +20,7 @@ class Company(models.Model):
         verbose_name_plural = 'Companies'
 
     def __str__(self):
+
         return self.name
 
     def save(self, *args, **kwargs):
@@ -63,7 +64,7 @@ class Medicine(models.Model):
         ordering = ['name']
 
     def __str__(self):
-        
+
         return self.name
 
     def save(self, *args, **kwargs):

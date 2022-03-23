@@ -1,4 +1,3 @@
-from django.forms import ValidationError
 from rest_framework import permissions, viewsets
 
 from medicine.models import Company, Medicine
@@ -16,9 +15,9 @@ class CompanyViewSet(viewsets.ModelViewSet):
 
 
 class MedicineViewSet(viewsets.ModelViewSet):
-    queryset = Medicine.objects.all()
+    queryset = Medicine.objects.select_related('company').all()
     serializer_class = MedicineSerializer
     permission_classes = [
-        permissions.IsAuthenticatedOrReadOnly,
+        permissions.IsAuthenticated,
         IsOwnerOrReadOnly
     ]
