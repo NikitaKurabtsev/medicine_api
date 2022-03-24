@@ -15,7 +15,7 @@ class CompanyViewSet(viewsets.ModelViewSet):
 
 
 class MedicineViewSet(viewsets.ModelViewSet):
-    queryset = Medicine.objects.select_related('company').all()
+    queryset = Medicine.objects.select_related("company").all()
     serializer_class = MedicineSerializer
     permission_classes = [
         permissions.IsAuthenticated,
