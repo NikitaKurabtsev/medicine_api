@@ -14,30 +14,30 @@ class APISerializerTest(APITestCase):
     """
     def setUp(self):
         self.user = User.objects.create_user(
-            username="user1",
-            password="password",
+            username='user1',
+            password='password',
         )
         
         self.company = Company.objects.create(
-            name="test_company",
+            name='test_company',
             owner=self.user,
         )
         
         self.medicine = Medicine.objects.create(
-            name="test_medicine",
-            medicine_category="Pills",
+            name='test_medicine',
+            medicine_category='Pills',
             company=self.company,
-            description="test_description",
-            release_date="2020-03-10",
-            expiration_date="2023-05-17",
+            description='test_description',
+            release_date='2020-03-10',
+            expiration_date='2023-05-17',
         )
         self.medicine_unvalid = Medicine.objects.create(
-            name="medicine_unvalid",
-            medicine_category="Injection",
+            name='medicine_unvalid',
+            medicine_category='Injection',
             company=self.company,
-            description="test_description",
-            release_date="2023-03-10",
-            expiration_date="2020-05-17",
+            description='test_description',
+            release_date='2023-03-10',
+            expiration_date='2020-05-17',
         )
         self.auth_client = APIClient()
         self.auth_client.force_authenticate(user=self.user)
@@ -45,9 +45,9 @@ class APISerializerTest(APITestCase):
     def test_company_serializer(self):
         serializer = CompanySerializer(
             instance=self.company, 
-            context={"request": RequestFactory().post("company-create")}
+            context={'request': RequestFactory().post('company-create')}
         )
-        url = reverse("company-detail", args=["1"])
+        url = reverse('company-detail', args=['1'])
         response = self.auth_client.get(url)
         
         self.assertEqual(status.HTTP_200_OK, response.status_code)
@@ -56,9 +56,9 @@ class APISerializerTest(APITestCase):
     def test_medicine_serializer(self):
         serializer = MedicineSerializer(
             instance=self.medicine,
-            context={"request": RequestFactory().post("medicine-create")}
+            context={'request': RequestFactory().post('medicine-create')}
         )
-        url = reverse("medicine-detail", args=["1"])
+        url = reverse('medicine-detail', args=['1'])
         response = self.auth_client.get(url)
 
         self.assertEqual(status.HTTP_200_OK, response.status_code)

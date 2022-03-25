@@ -7,50 +7,50 @@ class CompanySerializer(serializers.ModelSerializer):
     medicines = serializers.HyperlinkedRelatedField(
         many=True,
         read_only=True,
-        view_name="medicine-detail",
+        view_name='medicine-detail',
     )
-    owner = serializers.ReadOnlyField(source="owner.username")
+    owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
         model = Company
         fields = (
-            "url",
-            "pk",
-            "name",
-            "owner",
-            "created",
-            "medicines",
+            'url',
+            'pk',
+            'name',
+            'owner',
+            'created',
+            'medicines',
         )
 
 
 class MedicineSerializer(serializers.ModelSerializer):
     company = serializers.SlugRelatedField(
         queryset=Company.objects.all(), 
-        slug_field="slug",
+        slug_field='slug',
     )
-    release_date = serializers.DateField(format="%Y-%m-%d", input_formats=["%Y-%m-%d", "iso-8601"])
-    expiration_date = serializers.DateField(format="%Y-%m-%d", input_formats=["%Y-%m-%d", "iso-8601"])
+    release_date = serializers.DateField(format='%Y-%m-%d', input_formats=['%Y-%m-%d', 'iso-8601'])
+    expiration_date = serializers.DateField(format='%Y-%m-%d', input_formats=['%Y-%m-%d', 'iso-8601'])
 
     class Meta:
         model = Medicine
         fields = (
-            "url",
-            "pk",
-            "name",
-            "medicine_category",
-            "company",
-            "description",
-            "release_date",
-            "expiration_date",
+            'url',
+            'pk',
+            'name',
+            'medicine_category',
+            'company',
+            'description',
+            'release_date',
+            'expiration_date',
         )
 
     def validate_company(self, value):
         """
         Check that request user choose the company that he own.
         """
-        if value.owner != self.context["request"].user:
+        if value.owner != self.context['request'].user:
             raise serializers.ValidationError(
-                "You have to set up your company to add medicines."
+                'You have to set up your company to add medicines.'
             )
 
         return value
@@ -64,11 +64,11 @@ class MedicineSerializer(serializers.ModelSerializer):
 
         if medicines.exists():
             raise serializers.ValidationError(
-                "Description already exists"
+                'Description already exists'
             )
         if len(value) < 50:
             raise serializers.ValidationError(
-                "Description must be bigger than 50 characters"
+                'Description must be bigger than 50 characters'
             )
 
         return value
@@ -77,13 +77,13 @@ class MedicineSerializer(serializers.ModelSerializer):
         """
         Check that expiration date bigger then release date.
         """
-        if data["release_date"] >= data["expiration_date"]:
+        if data['release_date'] >= data['expiration_date']:
             raise serializers.ValidationError(
-                {"release_date": "Release date must be less then expiration date"}
+                {'release_date': 'Release date must be less then expiration date'}
             )
-        if data["expiration_date"] <= data["release_date"]:
+        if data['expiration_date'] <= data['release_date']:
             raise serializers.ValidationError(
-                {"expiration_date": "Expiration date must be bigger then release date"}
+                {'expiration_date': 'Expiration date must be bigger then release date'}
             )
 
         return data
