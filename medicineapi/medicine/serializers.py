@@ -68,7 +68,7 @@ class MedicineSerializer(serializers.ModelSerializer):
             )
         if len(value) < 50:
             raise serializers.ValidationError(
-                'Description must be bigger than 50 characters'
+                'Description must be bigger than 50 characters.'
             )
 
         return value
@@ -79,11 +79,11 @@ class MedicineSerializer(serializers.ModelSerializer):
         """
         if data['release_date'] >= data['expiration_date']:
             raise serializers.ValidationError(
-                {'release_date': 'Release date must be less then expiration date'}
+                {'release_date': 'Release date must be less then expiration date.'}
             )
         if data['expiration_date'] <= data['release_date']:
             raise serializers.ValidationError(
-                {'expiration_date': 'Expiration date must be bigger then release date'}
+                {'expiration_date': 'Expiration date must be bigger then release date.'}
             )
-
+    
         return data
