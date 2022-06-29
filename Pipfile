@@ -7,8 +7,11 @@ name = "pypi"
 django = "*"
 isort = "*"
 djangorestframework = "*"
+djangorestframework-simplejwt = "*"
+django-test-plus = "*"
+faker = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.8"
+python_version = "*"
