@@ -24,10 +24,6 @@ class CompanySerializer(serializers.ModelSerializer):
 
 
 class MedicineSerializer(serializers.ModelSerializer):
-    company = serializers.SlugRelatedField(
-        queryset=Company.objects.all(), 
-        slug_field='slug',
-    )
     release_date = serializers.DateField(format='%Y-%m-%d', input_formats=['%Y-%m-%d', 'iso-8601'])
     expiration_date = serializers.DateField(format='%Y-%m-%d', input_formats=['%Y-%m-%d', 'iso-8601'])
 
@@ -50,7 +46,7 @@ class MedicineSerializer(serializers.ModelSerializer):
         """
         if value.owner != self.context['request'].user:
             raise serializers.ValidationError(
-                'You have to set up your company to add medicines.'
+                'You have to set up your company to add medicines'
             )
 
         return value
