@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test.client import RequestFactory
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APITestCase
+from rest_framework.test import APITestCase, APIClient
 
 from medicine.models import Company, Medicine
 from medicine.serializers import CompanySerializer, MedicineSerializer
@@ -39,14 +39,16 @@ class APISerializerTest(APITestCase):
             release_date='2023-03-10',
             expiration_date='2020-05-17',
         )
-        
+        self.auth_client = APIClient()
+        self.auth_client.force_authenticate(user=self.user)
+
     def test_company_serializer(self):
         serializer = CompanySerializer(
             instance=self.company, 
             context={'request': RequestFactory().post('company-create')}
         )
         url = reverse('company-detail', args=['1'])
-        response = self.client.get(url)
+        response = self.auth_client.get(url)
         
         self.assertEqual(status.HTTP_200_OK, response.status_code)
         self.assertEqual(serializer.data, response.data)
@@ -61,7 +63,7 @@ class APISerializerTest(APITestCase):
             context={'request': RequestFactory().post('medicine-create')}
         )
         url = reverse('medicine-detail', args=['1'])
-        response = self.client.get(url)
+        response = self.auth_client.get(url)
 
         self.assertEqual(invalid_serializer.is_valid(), False)
         self.assertEqual(status.HTTP_200_OK, response.status_code)

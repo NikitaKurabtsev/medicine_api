@@ -41,9 +41,9 @@ class MedicineSerializer(serializers.ModelSerializer):
         )
 
     def validate_company(self, value):
-        '''
+        """
         Check that request user choose the company that he own.
-        '''
+        """
         if value.owner != self.context['request'].user:
             raise serializers.ValidationError(
                 'You have to set up your company to add medicines'
@@ -52,10 +52,10 @@ class MedicineSerializer(serializers.ModelSerializer):
         return value
 
     def validate_description(self, value):
-        '''
+        """
         Check that description is unique and
         length bigger than 50 characters.
-        '''
+        """
         medicines = Medicine.objects.filter(description=value)
 
         if medicines.exists():
@@ -64,22 +64,22 @@ class MedicineSerializer(serializers.ModelSerializer):
             )
         if len(value) < 50:
             raise serializers.ValidationError(
-                'Description must be bigger than 50 characters'
+                'Description must be bigger than 50 characters.'
             )
 
         return value
 
     def validate(self, data):
-        '''
+        """
         Check that expiration date bigger then release date.
-        '''
+        """
         if data['release_date'] >= data['expiration_date']:
             raise serializers.ValidationError(
-                {'release_date': 'Release date must be less then expiration date'}
+                {'release_date': 'Release date must be less then expiration date.'}
             )
         if data['expiration_date'] <= data['release_date']:
             raise serializers.ValidationError(
-                {'expiration_date': 'Expiration date must be bigger then release date'}
+                {'expiration_date': 'Expiration date must be bigger then release date.'}
             )
-
+    
         return data

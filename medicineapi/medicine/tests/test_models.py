@@ -26,7 +26,9 @@ class ModelTest(TestCase):
         )
 
     def test_company_model(self):
-        '''Company instances can be created and will be have right fields.'''
+        """
+        Company instances can be created and will be have right fields.
+        """
         self.assertEqual(self.company.name, 'test_company')
         self.assertEqual(self.company.owner.username, 'user')
         self.assertEqual(self.company.slug, 'test_company')
@@ -34,7 +36,9 @@ class ModelTest(TestCase):
         self.assertEqual(Company.objects.count(), 1)
 
     def test_medicine_model(self):
-        '''Medicine instances can be created and will be have right fields.'''
+        """
+        Medicine instances can be created and will be have right fields.
+        """
         self.assertEqual(self.medicine.name, 'test_medicine')
         self.assertEqual(self.medicine.medicine_category, 'Pills')
         self.assertEqual(self.medicine.company.name, 'test_company')
