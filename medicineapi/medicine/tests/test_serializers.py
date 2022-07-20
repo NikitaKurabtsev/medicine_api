@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test.client import RequestFactory
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APITestCase, APIClient
+from rest_framework.test import APIClient, APITestCase
 
 from medicine.models import Company, Medicine
 from medicine.serializers import CompanySerializer, MedicineSerializer

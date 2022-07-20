@@ -3,12 +3,11 @@ from urllib import response
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
+from faker import Faker
 from rest_framework.test import APIClient, APITestCase
 from test_plus.test import TestCase as PlusTestCase
-from faker import Faker
 
 from medicine.models import Company, Medicine
-
 
 faker = Faker()
 

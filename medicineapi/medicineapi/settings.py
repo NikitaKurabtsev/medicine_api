@@ -1,5 +1,5 @@
-from pathlib import Path
 import os
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'authentication.apps.AuthenticationConfig',
 
     'rest_framework',
+    'rest_framework_swagger',
     # 'rest_framework.authtoken',
     # 'rest_auth',
 ]
@@ -50,6 +51,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries': {  
+                    'staticfiles': 'django.templatetags.static',
+                 },
         },
     },
 ]
@@ -119,5 +123,6 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-    ]
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
