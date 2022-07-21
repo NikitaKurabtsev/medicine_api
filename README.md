@@ -1,6 +1,6 @@
-CRUD operations
+Medicine API
 
-## API CRUD operations with Companies and Medicines objects
+## API CRUD operations with Company and Medicine objects
 
 ### Collections/Resources
 
