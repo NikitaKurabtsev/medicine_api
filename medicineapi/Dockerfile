@@ -1,13 +1,10 @@
-FROM python:3.9-alpine
+FROM python:3.10
 
-WORKDIR /app
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+WORKDIR /project
 
-RUN pip install --upgrade pip
-COPY Home/Projects/python/medicine_api/requirements.txt /app/requirements.txt
-RUN chmod +x /app/requirements.txt
-RUN pip install -r requirements.txt
-
-COPY . /app/
+COPY Pipfile Pipfile.lock /project/
+RUN pip install pipenv && pipenv install --system && pipenv install
+COPY . /project/
