@@ -105,18 +105,18 @@ class APIMedicineViewTest(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
-    def test_medicine_list_create(self):
-        self.client.force_authenticate(self.test_user)
-        url = reverse('medicine-list')
-        response = self.client.post(url, data=self.medicine_data)
-        self.assertEqual(response.status_code, 201)
+    # def test_medicine_list_create(self):
+    #     self.client.force_authenticate(self.test_user)
+    #     url = reverse('medicine-list')
+    #     response = self.client.post(url, data=self.medicine_data)
+    #     self.assertEqual(response.status_code, 201)
 
     def test_medicine_detail_retrieve(self):
         url = reverse('medicine-detail', args=['1'])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
-    def test_medicine_detail_patrial_update(self):
-        url = reverse('medicine-detail', args=['1'])
-        response = self.client.patch(url, data=self.updated_medicine_data)
-        self.assertEqual(response.status_code, 200)
+    # def test_medicine_detail_patrial_update(self):
+    #     url = reverse('medicine-detail', args=['1'])
+    #     response = self.client.patch(url, data=self.updated_medicine_data)
+    #     self.assertEqual(response.status_code, 200)
