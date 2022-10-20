@@ -1,4 +1,8 @@
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from rest_framework import permissions, viewsets
+from rest_framework.response import Response
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 
 from medicine.models import Company, Medicine
 from medicine.permissions import IsOwnerOrReadOnly
@@ -9,15 +13,26 @@ class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    throttle_classes = [UserRateThrottle, AnonRateThrottle]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+    @method_decorator(cache_page(60*60*2))
+    def list(self, request):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class MedicineViewSet(viewsets.ModelViewSet):
     queryset = Medicine.objects.select_related('company').all()
     serializer_class = MedicineSerializer
-    permission_classes = [
-        permissions.IsAuthenticated,
-        IsOwnerOrReadOnly
-    ]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    throttle_classes = [UserRateThrottle, AnonRateThrottle]
+
+    @method_decorator(cache_page(60*60*2))
+    def list(self, request):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)

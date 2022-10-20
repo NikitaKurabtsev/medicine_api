@@ -47,7 +47,7 @@ class APICompanyViewTest(APITestCase):
         self.assertEqual(response.status_code, 201)
 
     def test_company_detail_retrieve(self):
-        url = reverse('company-detail', args=['1'])
+        url = reverse('company-detail', args=['5'])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
@@ -112,11 +112,11 @@ class APIMedicineViewTest(APITestCase):
         self.assertEqual(response.status_code, 201)
 
     def test_medicine_detail_retrieve(self):
-        url = reverse('medicine-detail', args=['1'])
+        url = reverse('medicine-detail', args=['8'])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
     def test_medicine_detail_patrial_update(self):
-        url = reverse('medicine-detail', args=['1'])
+        url = reverse('medicine-detail', args=['7'])
         response = self.client.patch(url, data=self.updated_medicine_data)
         self.assertEqual(response.status_code, 200)

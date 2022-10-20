@@ -47,7 +47,7 @@ class APISerializerTest(APITestCase):
             instance=self.company, 
             context={'request': RequestFactory().post('company-create')}
         )
-        url = reverse('company-detail', args=['1'])
+        url = reverse('company-detail', args=['3'])
         response = self.auth_client.get(url)
         
         self.assertEqual(status.HTTP_200_OK, response.status_code)
@@ -62,7 +62,7 @@ class APISerializerTest(APITestCase):
             data=self.invalid_medicine,
             context={'request': RequestFactory().post('medicine-create')}
         )
-        url = reverse('medicine-detail', args=['1'])
+        url = reverse('medicine-detail', args=['5'])
         response = self.auth_client.get(url)
 
         self.assertEqual(invalid_serializer.is_valid(), False)

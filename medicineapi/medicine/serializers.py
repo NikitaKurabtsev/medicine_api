@@ -81,5 +81,5 @@ class MedicineSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 {'expiration_date': 'Expiration date must be bigger then release date.'}
             )
-    
+
         return data
