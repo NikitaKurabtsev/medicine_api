@@ -1,4 +1,4 @@
-API CRUD operations with Company and Medicine objects
+API CRUD operations with Company and Medicine objects.
 
 ## API CRUD operations with Company and Medicine objects
 
