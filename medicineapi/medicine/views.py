@@ -1,10 +1,10 @@
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-from rest_framework import permissions, viewsets
-from rest_framework.response import Response
-from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
-from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import permissions, viewsets
+from rest_framework.filters import SearchFilter
+from rest_framework.response import Response
+from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
 
 from medicine.models import Company, Medicine
 from medicine.permissions import IsOwnerOrReadOnly
