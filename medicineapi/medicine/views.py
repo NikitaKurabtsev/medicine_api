@@ -22,11 +22,11 @@ class CompanyViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-    @method_decorator(cache_page(60*60*2))
-    def list(self, request):
-        queryset = self.get_queryset()
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+    # @method_decorator(cache_page(60*60*2))
+    # def list(self, request):
+    #     queryset = self.get_queryset()
+    #     serializer = self.get_serializer(queryset, many=True)
+    #     return Response(serializer.data)
 
 
 class MedicineViewSet(viewsets.ModelViewSet):
@@ -38,8 +38,8 @@ class MedicineViewSet(viewsets.ModelViewSet):
     filterset_fields = ('company', 'medicine_category')
     search_fields = ('name',)
 
-    @method_decorator(cache_page(60*60*2))
-    def list(self, request):
-        queryset = self.get_queryset()
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+    # @method_decorator(cache_page(60*60*2))
+    # def list(self, request):
+    #     queryset = self.get_queryset()
+    #     serializer = self.get_serializer(queryset, many=True)
+    #     return Response(serializer.data)

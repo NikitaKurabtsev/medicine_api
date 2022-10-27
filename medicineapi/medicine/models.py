@@ -8,12 +8,6 @@ class Company(models.Model):
     name = models.CharField(max_length=255, unique=True, help_text='Название')
     owner = models.OneToOneField(User, on_delete=models.CASCADE, help_text='Владелец')
     created = models.DateTimeField(auto_now_add=True, help_text='дата регистрации компании')
-    slug = models.SlugField(
-        max_length=255, 
-        unique_for_date='created', 
-        blank=True, 
-        validators=[validate_slug]
-    )
 
     class Meta:
         ordering = ['-created']
@@ -21,10 +15,6 @@ class Company(models.Model):
 
     def __str__(self):
         return self.name
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        super(Company, self).save(*args, **kwargs)
 
 
 class Medicine(models.Model):
@@ -52,19 +42,9 @@ class Medicine(models.Model):
     description = models.TextField(max_length=255, blank=False, help_text='Описание')
     release_date = models.DateField(blank=False, help_text='Дата выпуска')
     expiration_date = models.DateField(blank=False, help_text='Дата окончания срока')
-    slug = models.SlugField(
-        max_length=255, 
-        unique_for_date='created', 
-        blank=True,
-        validators=[validate_slug]
-    )
 
     class Meta:
         ordering = ['name']
 
     def __str__(self):
         return self.name
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        super(Medicine, self).save(*args, **kwargs)
